@@ -1,16 +1,16 @@
-<!-- templates\home.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Usuarios</title>
+    <title>Usuarios y Productos</title>
 </head>
 <body>
 <div class="container">
     <h1>Usuarios</h1>
     <a href="/add" class="btn btn-primary">Agregar Usuario</a>
+    <a href="/add_product" class="btn btn-primary">Agregar Producto</a>
     <table class="table">
         <thead>
             <tr>
@@ -31,6 +31,7 @@
                         <li>{{ product.product_name }} - ${{ product.price }}</li>
                     {% endfor %}
                     </ul>
+                    <p>Cantidad de Productos: {{ user.product_count }}</p> <!-- Muestra la cantidad de productos -->
                 </td>
                 <td>
                     <a href="/edit/{{ user.id }}" class="btn btn-secondary">Editar</a>

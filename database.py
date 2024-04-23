@@ -17,12 +17,22 @@ def get_all_users():
     conn.close()  # Cerrar la conexión con la base de datos
     return users  # Devolver la lista de usuarios
 
+import time  # Importar el módulo time para pausas
+
 # Función para agregar un nuevo usuario a la base de datos
 def add_user(name, email):
     conn = get_db_connection()  # Obtener conexión a la base de datos
-    conn.execute('INSERT INTO users (name, email) VALUES (?, ?)', (name, email)) # Inserta un nuevo registro en la tabla 'users' con los valores especificados para 'name' y 'email'.
-    conn.commit()  # Guardar los cambios en la base de datos
-    conn.close()  # Cerrar la conexión
+    # Intentar insertar el nuevo usuario, con manejo de excepciones para el bloqueo de la base de datos
+    try:
+        conn.execute('INSERT INTO users (name, email) VALUES (?, ?)', (name, email)) # Inserta un nuevo registro en la tabla 'users' con los valores especificados para 'name' y 'email'.
+        conn.commit()  # Guardar los cambios en la base de datos
+        conn.close()  # Cerrar la conexión
+    except sqlite3.OperationalError as e:
+        # Si se produce un error de bloqueo de la base de datos, esperar un momento y volver a intentar la operación
+        print("Error: la base de datos está bloqueada. Intentando nuevamente en unos segundos...")
+        time.sleep(1)  # Pausa de 1 segundo
+        add_user(name, email)  # Volver a llamar a la función para intentar nuevamente la inserción del usuario
+
 
 # Función para obtener un usuario por su ID
 def get_user_by_id(user_id):
@@ -47,6 +57,9 @@ def delete_user(user_id):
     conn.execute('DELETE FROM users WHERE id = ?', (user_id,))
     conn.commit()  # Guardar los cambios en la base de datos
     conn.close()  # Cerrar la conexión
+
+
+
 
 # Función para configurar la base de datos y crear la tabla si no existe
 def setup_database():

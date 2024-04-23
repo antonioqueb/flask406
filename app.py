@@ -1,6 +1,8 @@
+# app.py
 # Importar las funciones y clases necesarias de Flask y otros módulos
 from flask import Flask, render_template, request, redirect, url_for
 import database as db  # Importar el módulo de base de datos personalizado
+import products as pdb
 
 # Crear una instancia de la aplicación Flask
 app = Flask(__name__)
@@ -8,9 +10,9 @@ app = Flask(__name__)
 # Decorador que define la ruta principal '/' y vincula la función 'home' a esta ruta
 @app.route('/')
 def home():
-    """Muestra la página principal con todos los usuarios."""
-    users = db.get_all_users()  # Obtener todos los usuarios de la base de datos
-    return render_template('home.html', users=users)  # Renderizar la plantilla HTML pasando la lista de usuarios
+    users = db.get_all_users()
+    products = pdb.get_all_products()  # Obtener todos los productos
+    return render_template('home.html', users=users, products=products)
 
 # Decorador que define la ruta '/add' y permite métodos HTTP GET y POST
 @app.route('/add', methods=['GET', 'POST'])
@@ -41,6 +43,23 @@ def delete_user(id):
     """Elimina un usuario."""
     db.delete_user(id)  # Eliminar el usuario por ID de la base de datos
     return redirect(url_for('home'))  # Redireccionar a la página principal
+
+
+@app.route('/add_product', methods=['GET', 'POST'])
+def add_product():
+    """Agrega un nuevo producto a la base de datos."""
+    users = db.get_all_users()  # Obtener todos los usuarios
+    if request.method == 'POST':
+        product_name = request.form['product_name']
+        price = request.form['price']
+        user_id = request.form['user_id']  # Obtener el ID del usuario seleccionado
+        pdb.add_product(product_name, float(price), user_id)  # Asegúrate de pasar el ID del usuario al agregar el producto
+        return redirect(url_for('home'))
+    return render_template('add_product.html', users=users)  # Pasar la lista de usuarios a la plantilla
+
+
+
+
 
 # Punto de entrada del script, verifica si este archivo es el ejecutado directamente
 if __name__ == '__main__':
