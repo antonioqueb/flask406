@@ -16,7 +16,6 @@
             <tr>
                 <th>Nombre</th>
                 <th>Email</th>
-                <th>Productos</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -31,7 +30,7 @@
                         <li>{{ product.product_name }} - ${{ product.price }}</li>
                     {% endfor %}
                     </ul>
-                    <p>Cantidad de Productos: {{ user.product_count }}</p> <!-- Muestra la cantidad de productos -->
+                    <p>Cantidad de Productos: {{ user.products|length }}</p> <!-- Utilizar la función 'length' para obtener la longitud de la lista de productos -->
                 </td>
                 <td>
                     <a href="/edit/{{ user.id }}" class="btn btn-secondary">Editar</a>

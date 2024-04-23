@@ -3,6 +3,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 import database as db  # Importar el módulo de base de datos personalizado
 import products as pdb
+# Importar las funciones necesarias desde el módulo users.py
+
 
 # Crear una instancia de la aplicación Flask
 app = Flask(__name__)
@@ -58,6 +60,12 @@ def add_product():
     return render_template('add_product.html', users=users)  # Pasar la lista de usuarios a la plantilla
 
 
+# Define la ruta para ver los productos de un usuario
+@app.route('/view_products/<int:user_id>')
+def view_products(user_id):
+    user = get_user_by_id(user_id)  # Obtiene el usuario por su ID
+    products = get_products_by_user_id(user_id)  # Obtiene los productos del usuario por su ID
+    return render_template('view_products.html', user=user, products=products)
 
 
 
