@@ -1,0 +1,91 @@
+# ¿Comó arrancar proyecto?
+
+### Paso 1: Crear el Entorno Virtual
+
+1. **Abrir PowerShell**:
+Abre la terminal de PowerShell en tu directorio de proyecto.
+2. **Crear el entorno virtual**:
+Ejecuta el siguiente comando para crear un entorno virtual en el directorio del proyecto. Este entorno aislará tus dependencias de Python:
+    
+    ```powershell
+    py -m venv env
+    
+    ```
+    
+3. **Activar el entorno virtual**:
+Una vez creado, activa el entorno virtual utilizando:
+    
+    ```powershell
+    .\env\\Scripts\\Activate
+    
+    ```
+    
+    Deberías ver `(env)` al principio de tu línea de comandos, indicando que el entorno virtual está activo.
+    
+
+### Paso 2: Instalar Flask
+
+Con el entorno virtual activo, instala Flask y cualquier otra dependencia necesaria:
+
+```powershell
+pip install -r requirements.txt
+
+```
+
+### Paso 3: Configurar la Base de Datos
+
+1. **Crear el archivo `database.py`**:
+Asegúrate de que tu archivo `database.py` esté en el directorio del proyecto y contenga todas las funciones necesarias, incluida la función para configurar la base de datos.
+2. **Agregar la función de configuración de la base de datos**:
+Si aún no lo has hecho, añade una función en `database.py` para crear la tabla de usuarios:
+    
+    ```python
+    def setup_database():
+        conn = get_db_connection()
+        conn.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE
+        );
+        ''')
+        conn.commit()
+        conn.close()
+    
+    if __name__ == '__main__':
+        setup_database()
+    
+    ```
+    
+3. **Ejecutar `database.py`**:
+Ejecuta el archivo para configurar tu base de datos:
+    
+    ```powershell
+    python database.py
+    
+    ```
+    
+
+### Paso 4: Crear y Configurar `app.py`
+
+1. **Crear el archivo `app.py`**:
+Asegúrate de que tu archivo `app.py` esté listo y configurado correctamente para usar las funciones de `database.py`.
+2. **Configurar las rutas**:
+Implementa las rutas necesarias en `app.py` utilizando las funciones importadas de `database.py`.
+
+### Paso 5: Ejecutar la Aplicación Flask
+
+1. **Iniciar Flask**:
+Ejecuta el siguiente comando para iniciar tu aplicación:
+    
+    ```powershell
+    flask run
+    
+    ```
+    
+    Esto iniciará el servidor, y podrás acceder a tu aplicación a través de `http://127.0.0.1:5000` en tu navegador.
+    
+
+### Paso 6: Probar la Aplicación
+
+Abre tu navegador y navega a `http://127.0.0.1:5000` para ver tu aplicación en acción. Prueba añadir, editar y eliminar usuarios para asegurarte de que todo funcione como se espera.
