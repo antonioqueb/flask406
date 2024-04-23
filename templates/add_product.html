@@ -1,0 +1,35 @@
+<!-- templates\add_product.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Agregar Producto</title>
+</head>
+<body>
+<div class="container">
+    <h1>Agregar Producto a Usuario</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="user_id">Usuario:</label>
+            <select class="form-control" name="user_id" id="user_id" required>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="product_name">Nombre del Producto:</label>
+            <input type="text" class="form-control" name="product_name" id="product_name" required>
+        </div>
+        <div class="form-group">
+            <label for="price">Precio:</label>
+            <input type="number" step="0.01" class="form-control" name="price" id="price" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>

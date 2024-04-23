@@ -1,21 +1,23 @@
+<!-- templates\home.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Users</title>
+    <title>Usuarios</title>
 </head>
 <body>
 <div class="container">
-    <h1>Users</h1>
-    <a href="/add" class="btn btn-primary">Add User</a>
+    <h1>Usuarios</h1>
+    <a href="/add" class="btn btn-primary">Agregar Usuario</a>
     <table class="table">
         <thead>
             <tr>
-                <th>Name</th>
+                <th>Nombre</th>
                 <th>Email</th>
-                <th>Actions</th>
+                <th>Productos</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -24,8 +26,15 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                    <a href="/edit/{{ user.id }}" class="btn btn-secondary">Edit</a>
-                    <a href="/delete/{{ user.id }}" class="btn btn-danger">Delete</a>
+                    <ul>
+                    {% for product in user.products %}
+                        <li>{{ product.product_name }} - ${{ product.price }}</li>
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <a href="/edit/{{ user.id }}" class="btn btn-secondary">Editar</a>
+                    <a href="/delete/{{ user.id }}" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>
             {% endfor %}
