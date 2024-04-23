@@ -5,13 +5,13 @@ def get_db_connection():
     conn.execute('ATTACH DATABASE "products.db" AS products_db')  # Adjunta la segunda base de datos
     return conn
 
-# Ejemplo de función para realizar una consulta que une datos de ambas bases de datos
 def join_users_products():
     conn = get_db_connection()
+    # Query que une datos de las tablas users y products a través de sus respectivos IDs
     query = '''
     SELECT u.name, u.email, p.product_name, p.price
     FROM users u
-    INNER JOIN products_db.products p ON p.product_id = u.id  # Suponiendo que 'id' de users corresponda a 'product_id' en products
+    INNER JOIN products_db.products p ON p.product_id = u.id
     '''
     results = conn.execute(query).fetchall()
     conn.close()
